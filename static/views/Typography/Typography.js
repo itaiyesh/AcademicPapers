@@ -58,4 +58,4 @@ const Typography = () => {
   );
 };
 
-export default Typography;
+export { Typography };

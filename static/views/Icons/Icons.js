@@ -26,4 +26,4 @@ const Icons = () => {
   );
 };
 
-export default Icons;
+export {Icons };

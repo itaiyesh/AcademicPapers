@@ -53,4 +53,4 @@ SearchInput.propTypes = {
   style: PropTypes.object
 };
 
-export default SearchInput;
+export {SearchInput };

@@ -44,6 +44,11 @@ const Sidebar = props => {
 
   const pages = [
     {
+      title: 'Authors',
+      href: '/authors',
+      icon: <LockOpenIcon/>
+    },
+    {
       title: 'Dashboard',
       href: '/dashboard',
       icon: <DashboardIcon />
