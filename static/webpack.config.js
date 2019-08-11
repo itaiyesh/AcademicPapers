@@ -2,6 +2,8 @@ const webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = {
+
+
     entry:  __dirname + '/js/index.jsx',
     output: {
         path: __dirname + '/dist',
@@ -9,8 +11,14 @@ const config = {
     },
     resolve: {
         extensions: [".js", ".jsx", ".css"]
+    //     ,alias: {
+    //         react: path.resolve('./node_modules/react')
+    //   },
     },
     module: {
+        loaders: [
+            { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
+          ],
         rules: [
             {
                 test: /\.jsx?/,

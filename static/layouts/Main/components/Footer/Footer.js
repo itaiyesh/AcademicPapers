@@ -22,18 +22,18 @@ const Footer = props => {
     >
       <Typography variant="body1">
         &copy;{' '}
-        <Link
+        <Link 
+         m={2}
           component="a"
-          href="https://devias.io/"
+          href="https://github.com/itaiyesh"
           target="_blank"
         >
-          Devias IO
-        </Link>
-        . 2019
+          Itai Yeshurun &amp; Amit Ganz
+          </Link>
+        
       </Typography>
       <Typography variant="caption">
-        Created with love for the environment. By designers and developers who
-        love to work together in offices!
+        Technion - Israel Institute of Technology
       </Typography>
     </div>
   );

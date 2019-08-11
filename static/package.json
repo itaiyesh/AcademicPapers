@@ -1,7 +1,7 @@
 {
-  "name": "fullstack-template",
+  "name": "paper-ai",
   "version": "1.0.0",
-  "description": "Fullstack Template",
+  "description": "Paper AI",
   "main": "index.js",
   "scripts": {
     "build": "webpack -p --progress --config webpack.config.js",
@@ -10,18 +10,14 @@
     "watch": "webpack --progress -d --config webpack.config.js --watch"
   },
   "keywords": [
-    "fullstack",
-    "template",
-    "python",
-    "react",
-    "npm",
-    "webpack"
+    "papers",
+    "academy",
+    "authors",
+    "journals",
+    "research",
+    "judges"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/angineering/FullStackTemplate.git"
-  },
-  "author": "Angela Branaes",
+  "author": "IY5",
   "license": "MIT",
   "babel": {
     "presets": [
@@ -41,6 +37,7 @@
     "@material-ui/styles": "^4.2.1",
     "chart.js": "^2.8.0",
     "clsx": "^1.0.4",
+    "firebase": "^6.3.5",
     "history": "^4.9.0",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
@@ -52,8 +49,8 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.0.1",
     "recompose": "^0.30.0",
-    "underscore": "^1.9.1",
     "sass-loader": "^7.1.0",
+    "underscore": "^1.9.1",
     "uuid": "^3.3.2",
     "validate.js": "^0.13.1"
   },
@@ -75,6 +72,7 @@
     "react-bootstrap": "^0.31.0",
     "style-loader": "^0.18.2",
     "typescript": "^3.5.1",
+    "url-loader": "^2.1.0",
     "webpack": "^3.0.0"
   }
 }

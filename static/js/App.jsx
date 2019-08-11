@@ -14,6 +14,11 @@ import '../assets/scss/index.scss';
 import validators from '../common/validators';
 import { Routes } from './Routes';
 
+//TODO: Remove:
+// import { initializeFirebase, askForPermissioToReceiveNotifications } from './push';
+// initializeFirebase();
+// askForPermissioToReceiveNotifications();
+
 const browserHistory = createBrowserHistory();
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
@@ -31,7 +36,7 @@ class App extends Component {
     const { data } = this.props.data
 
     console.log(data);
-
+    
     return (
       <ThemeProvider theme={theme}>
 
