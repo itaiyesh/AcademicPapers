@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Redirect } from 'react-router-dom';
 
 import { RouteWithLayout } from '../components';
 import { Main as MainLayout, Minimal as MinimalLayout } from '../layouts';
@@ -27,46 +27,94 @@ import { ProductList as ProductListView } from '../views/ProductList/ProductList
 import { Typography as TypographyView } from '../views/Typography/Typography'
 import { Icons as IconsView } from '../views/Icons/Icons'
 import { Account as AccountView } from '../views/Account/Account'
+import { WatchAuthor as WatchAuthorView } from '../views/WatchAuthor/WatchAuthor'
+
+import { createHashHistory } from 'history'
+
+const history = createHashHistory();
 
 const Routes = () => {
 
   const [recommendedAuthors, setRecommendedAuthors] = useState([]);
+  const [author, setAuthor] = useState(null);
+
+  const [showWatchAuthor, setShowWatchAuthor] = useState(false);
 
   const onSearchQueryResults = (results) => {
       console.log("Routes.js", results);
       setRecommendedAuthors(results);
+      // setShowWatchAuthor(true);
   };
 
-  return (
-    <Switch>
+  const onAuthorSelected = (author) => {
+    console.log("Routes.js Author selected:", author);
+    // setRecommendedAuthors(results);
+    setAuthor(author);
+    setShowWatchAuthor(true);
+};
 
-      <Redirect
+  const renderRedirect = (showWatchAuthor) => {
+    if(showWatchAuthor) {
+      return <Redirect
+      exact
+      from="/"
+      to="/watch"
+    /> 
+     } else { 
+      return <Redirect
         exact
         from="/"
         to="/authors"
-      />
+      /> 
+     }
+  }
+
+  return (
+    // This was Switch
+    <BrowserRouter> 
+    
+     {renderRedirect(showWatchAuthor)}
 
       <RouteWithLayout
         component={AuthorsView}
-        exact
+        // exact
         layout={MainLayout}
         onSearchQueryResults={onSearchQueryResults}
+        onAuthorSelected={onAuthorSelected}
         recommendedAuthors = {recommendedAuthors}
+        //Author is redundant here
+        author = {author}
+
         path="/authors"
+      />
+          <RouteWithLayout
+        component={WatchAuthorView}
+        // exact
+        layout={MainLayout}
+        onSearchQueryResults={onSearchQueryResults}
+        onAuthorSelected={onAuthorSelected}
+
+        recommendedAuthors = {recommendedAuthors}
+        author = {author}
+        path="/watch"
       />
       <RouteWithLayout
         component={DashboardView}
-        exact
+        // exact
         layout={MainLayout}
 
         //This may be redundant
         onSearchQueryResults={onSearchQueryResults}
+        onAuthorSelected={onAuthorSelected}
+
         recommendedAuthors = {recommendedAuthors}
+        //Author is redundant here
+        author = {author}
 
         path="/dashboard"
       />
       {/* <Redirect to="/wsdadsd" /> */}
-      </Switch>
+      </BrowserRouter>
 
   );
 };

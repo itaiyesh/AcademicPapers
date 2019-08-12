@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 
 const RouteWithLayout = props => {
   //TODO: We pass recommendedAuthors here to all views, even though not all views use it!
-  const { layout: Layout, component: Component, onSearchQueryResults, recommendedAuthors, ...rest } = props;
+  const { layout: Layout, component: Component, onSearchQueryResults, onAuthorSelected, recommendedAuthors,author, ...rest } = props;
+  console.log("onAuthorSelected1:  ", onAuthorSelected)
 
   return (
     <Route
@@ -15,7 +16,7 @@ const RouteWithLayout = props => {
       render={ matchProps => 
         (
         <Layout onSearchQueryResults={onSearchQueryResults}>
-          <Component {...matchProps} recommendedAuthors={recommendedAuthors} />
+          <Component {...matchProps} recommendedAuthors={recommendedAuthors} onAuthorSelected={onAuthorSelected} author={author}/>
         </Layout>
       )
   }
