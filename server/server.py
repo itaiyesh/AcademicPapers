@@ -26,22 +26,36 @@ def search_paper():
         #     {  'id': 0,
           
         #       'name': 'itai', 
-        #     'papers': [{'name': 'the best paper in the world', 'year': 1986}, {'name': 'the second best paper in the world', 'date': 2019}],
+        #     'papers': [{'name': 'the best paper in the world', 'year': 1986}, {'name': 'the second best paper in the world', 'year': 2019}],
         #     'score': 9.7,
         #   },
         #     {  'id': 1,
           
         #       'name': 'amit', 
-        #     'papers': [{'name': 'the best paper in the world', 'year': 1986}, {'name': 'the second best paper in the world', 'date': 2019}],
+        #     'papers': [{'name': 'the best paper in the world', 'year': 1986}, {'name': 'the second best paper in the world', 'year': 2019}],
         #   'score': 9.6}
           
         #   ]
+        def mock_object(i):
+          if random.random() > 0.5 : 
+            return {  'id': str(i),
+              'name': 'Shaul Markovitch', 
+              'img': 'https://scholar.google.com/citations?view_op=medium_photo&user=bYcqNlgAAAAJ',
+              'affiliation': 'Professor of Computer Science, Technion - Israel Institute of Technology',
+              'papers': [{'id':0, 'name': 'the best paper in the world', 'year': 1986}, {'id':1,'name': 'this is the second best paper in the world, for sure, no doubt. really', 'year': 2019}],
+              'score': random.random()*10,
+               } 
+          else:
+            return {
+              'id': str(i),
+              'name': 'somebody', 
+              'img': 'https://scholar.google.com/citations?view_op=medium_photo&user=Smr99uEAAAAJ',
+              'affiliation': 'Professor of some university',
+              'papers': [{'id':0, 'name': 'the best paper in the world', 'year': 1986}, {'id':1,'name': 'this is the second best paper in the world, for sure, no doubt. really', 'year': 2019}],
+              'score': random.random()*10,
+          }
         recommendedAuthors = list(map(
-             lambda i: {  'id': str(i),
-              'name': 'name'+str(i), 
-            'papers': [{'name': 'the best paper in the world', 'year': 1986}, {'name': 'the second best paper in the world', 'date': 2019}],
-            'score': 9.7,
-          }, range(20)
+             lambda i: mock_object(i) , range(20)
         ))
         return json.dumps(recommendedAuthors)
         # return jsonify(recommendedAuthors) 

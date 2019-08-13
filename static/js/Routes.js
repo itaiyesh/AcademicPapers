@@ -39,11 +39,14 @@ const Routes = () => {
   const [author, setAuthor] = useState(null);
 
   const [showWatchAuthor, setShowWatchAuthor] = useState(false);
+  // const [showAuthors, setShowAuthors] = useState(false);
 
   const onSearchQueryResults = (results) => {
       console.log("Routes.js", results);
       setRecommendedAuthors(results);
-      // setShowWatchAuthor(true);
+      // setShowAuthors(true);
+      setShowWatchAuthor(false);
+
   };
 
   const onAuthorSelected = (author) => {
@@ -68,6 +71,7 @@ const Routes = () => {
       /> 
      }
   }
+
 
   return (
     // This was Switch
