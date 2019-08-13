@@ -22,6 +22,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
 import StarRatings from '../../node_modules/react-star-ratings';
 
+import {ChipSelect} from '../../components/ChipSelect'
+
+
 console.log(user_logo)
 // Add this in your component file
 
@@ -68,9 +71,17 @@ const Authors = props => {
     // ];
 
     const classes = useStyles();
+    // Dummy array of test values.
+    const options = Array.from(new Array(1000), (_, index) => ({
+      label: `Item ${index}`,
+      value: index
+    }));
 
     return (
          <Container  className={classes.container}  maxWidth="md"> 
+
+        {/* <Select options={options} /> */}
+        <ChipSelect></ChipSelect>
             <AuthorsList recommendedAuthors={recommendedAuthors} small={false} onAuthorSelected={onAuthorSelected}></AuthorsList>
          </Container>
     );
