@@ -340,7 +340,9 @@ const components = {
   ValueContainer
 };
 
-function ChipSelect() {
+function ChipSelect(props) {
+  const { setRecommendedAuthors } = props;
+
   const classes = useStyles();
   const theme = useTheme();
   const [multi, setMulti] = React.useState(null);
@@ -348,13 +350,40 @@ function ChipSelect() {
   const [suggestions, setSuggestions] = React.useState([]);
 
   function handleChangeMulti(value) {
+
     setMulti(value);
+
+  
+    //TODO: Need to send request to fetch new authors based on 'value'
+    //TODO: If value is empty, fetch best authors as usual.
+    fetch('/search_authors', {
+      method: 'post',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+       "query": value
+      })
+     })
+     .then(response => 
+         response.json().then(post=> {
+              //TODO: 
+              //update authors data
+              // console.log("Before");
+              setRecommendedAuthors(post);
+              // console.log("Settings:");
+              console.log(post);
+            }
+           )
+       )
+     .catch(error =>
+        console.error('Error:', error)
+        //TODO: Reset loading here
+
+        );;
   }
 
   //TODO: refactor this function outside
   function handleInputChange(newValue: string, actionMeta: InputActionMeta) {
     setIsLoading(true);
-    console.log(newValue);
     fetch('/authors_suggestions', {
       method: 'post',
       headers: {'Content-Type':'application/json'},

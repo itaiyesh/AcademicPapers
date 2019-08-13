@@ -51,7 +51,8 @@ const useStyles = makeStyles(theme => ({
 
 const Authors = props => {
 
-    const { onAuthorSelected, recommendedAuthors,  ...rest } = props;
+    const { onAuthorSelected, recommendedAuthors, setRecommendedAuthors,  ...rest } = props;
+
     console.log("onAuthorSelected2:  ", onAuthorSelected)
 
     //TODO: Remove mock
@@ -81,7 +82,7 @@ const Authors = props => {
          <Container  className={classes.container}  maxWidth="md"> 
 
         {/* <Select options={options} /> */}
-        <ChipSelect></ChipSelect>
+        <ChipSelect setRecommendedAuthors={setRecommendedAuthors}></ChipSelect>
             <AuthorsList recommendedAuthors={recommendedAuthors} small={false} onAuthorSelected={onAuthorSelected}></AuthorsList>
          </Container>
     );

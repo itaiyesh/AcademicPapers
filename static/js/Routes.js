@@ -42,7 +42,7 @@ const Routes = () => {
   // const [showAuthors, setShowAuthors] = useState(false);
 
   const onSearchQueryResults = (results) => {
-      console.log("Routes.js", results);
+      console.log("Routes.js onSearchQueryResults", results);
       setRecommendedAuthors(results);
       // setShowAuthors(true);
       setShowWatchAuthor(false);
@@ -50,7 +50,7 @@ const Routes = () => {
   };
 
   const onAuthorSelected = (author) => {
-    console.log("Routes.js Author selected:", author);
+    console.log("Routes.js onAuthorSelected:", author);
     // setRecommendedAuthors(results);
     setAuthor(author);
     setShowWatchAuthor(true);
@@ -86,6 +86,8 @@ const Routes = () => {
         onSearchQueryResults={onSearchQueryResults}
         onAuthorSelected={onAuthorSelected}
         recommendedAuthors = {recommendedAuthors}
+        setRecommendedAuthors = {setRecommendedAuthors}
+
         //Author is redundant here
         author = {author}
 
@@ -99,6 +101,8 @@ const Routes = () => {
         onAuthorSelected={onAuthorSelected}
 
         recommendedAuthors = {recommendedAuthors}
+        setRecommendedAuthors = {setRecommendedAuthors}
+
         author = {author}
         path="/watch"
       />
@@ -111,7 +115,7 @@ const Routes = () => {
         onSearchQueryResults={onSearchQueryResults}
         onAuthorSelected={onAuthorSelected}
 
-        recommendedAuthors = {recommendedAuthors}
+        setRecommendedAuthors = {setRecommendedAuthors}
         //Author is redundant here
         author = {author}
 
