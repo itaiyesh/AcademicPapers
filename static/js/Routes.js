@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
 import { RouteWithLayout } from '../components';
 import { Main as MainLayout, Minimal as MinimalLayout } from '../layouts'; 
@@ -7,103 +7,73 @@ import { Authors as AuthorsView} from '../views/Authors/Authors';
 import { Dashboard as DashboardView } from '../views/Dashboard/Dashboard'
 import { WatchAuthor as WatchAuthorView } from '../views/WatchAuthor/WatchAuthor'
 
-import { createHashHistory } from 'history'
-
-const history = createHashHistory();
+//TODO: Create hash history!!! not good
+// import { createHashHistory } from 'history'
+// const history = createHashHistory();
 
 const Routes = () => {
 
   const [recommendedAuthors, setRecommendedAuthors] = useState([]);
   const [author, setAuthor] = useState(null);
+  // const [authorsSubView, setAuthorsSubView] = useState('search');
 
-  const [showWatchAuthor, setShowWatchAuthor] = useState(false);
   // const [showAuthors, setShowAuthors] = useState(false);
+  const [showWatchAuthor, setShowWatchAuthor] = useState(false);
 
   const [searchQuery, setSearchQuery] = React.useState("");
 
+  //Author filter selection
+  const [selection, setSelection] = React.useState(null);
 
   const onSearchQueryResults = (results) => {
       setRecommendedAuthors(results);
+      // history.push('/authors/search')
+      // authorsSubView('search');
+      console.log("onSearchQueryResults")
       setShowWatchAuthor(false);
 
   };
 
   const onAuthorSelected = (author) => {
     setAuthor(author);
+    // history.push('/authors/watch')
+
+    // authorsSubView('watch');
+    console.log("Author selected");
+
     setShowWatchAuthor(true);
 };
-
-  const renderRedirect = (showWatchAuthor) => {
-    if(showWatchAuthor) {
-      return <Redirect
-      exact
-      from="/"
-      to="/watch"
-    /> 
-     } else { 
-      return <Redirect
-        exact
-        from="/"
-        to="/authors"
-      /> 
-     }
-  }
-
 
   return (
     // This was Switch
     <BrowserRouter> 
-    
-     {renderRedirect(showWatchAuthor)}
 
-      <RouteWithLayout
-        component={AuthorsView}
-        // exact
-        layout={MainLayout}
-        searchQuery = {searchQuery}
-        setSearchQuery = {setSearchQuery}
-        onSearchQueryResults={onSearchQueryResults}
-        onAuthorSelected={onAuthorSelected}
-        recommendedAuthors = {recommendedAuthors}
-        setRecommendedAuthors = {setRecommendedAuthors}
-        
-        //Author is redundant here
-        author = {author}
 
-        path="/authors"
-      />
-          <RouteWithLayout
-        component={WatchAuthorView}
-        // exact
-        layout={MainLayout}
-        searchQuery = {searchQuery}
-        setSearchQuery = {setSearchQuery}
-        onSearchQueryResults={onSearchQueryResults}
-        onAuthorSelected={onAuthorSelected}
-
-        recommendedAuthors = {recommendedAuthors}
-        setRecommendedAuthors = {setRecommendedAuthors}
-
-        author = {author}
-        path="/watch"
-      />
-      <RouteWithLayout
-        component={DashboardView}
-        // exact
-        layout={MainLayout}
-        searchQuery = {searchQuery}
-        setSearchQuery = {setSearchQuery}
-        //This may be redundant
-        onSearchQueryResults={onSearchQueryResults}
-        onAuthorSelected={onAuthorSelected}
-
-        setRecommendedAuthors = {setRecommendedAuthors}
-        //Author is redundant here
-        author = {author}
-
-        path="/dashboard"
-      />
-      {/* <Redirect to="/wsdadsd" /> */}
+     <MainLayout onSearchQueryResults={onSearchQueryResults} searchQuery={searchQuery} setSearchQuery={setSearchQuery}>
+         <Redirect
+          exact
+          from="/"
+          to="/authors"
+          push={true}
+        /> 
+       <Switch >
+            <Route path="/authors" component={({match})=>
+              <AuthorsView match={match}
+               showWatchAuthor={showWatchAuthor}
+               onAuthorSelected={onAuthorSelected} 
+              author={author} 
+              recommendedAuthors={recommendedAuthors} 
+              setRecommendedAuthors={setRecommendedAuthors}
+              selection={selection}
+              setSelection={setSelection}
+              
+              />}
+              />
+            <Route path="/papers" component={({match})=>
+              <DashboardView match={match}/>}
+              /> 
+       </Switch>
+     </MainLayout>
       </BrowserRouter>
 
   );

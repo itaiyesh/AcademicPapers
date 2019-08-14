@@ -7,6 +7,13 @@ import json
 
 app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
 
+# @app.route('/', defaults={'path': ''})
+# @app.route('/<path:path>')
+# def catch_all(path):
+#     # return 'You want path: %s' % path
+#     return render_template('index.html', data = path )
+
+
 @app.route('/')
 def index():
     context = {'name': 'itai'}

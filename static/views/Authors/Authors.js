@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, {useEffect, useState } from 'react';
 import { makeStyles, useTheme  } from '@material-ui/styles';
 import GridList from '@material-ui/core/GridList';
 import List from '@material-ui/core/List';
@@ -13,6 +13,8 @@ import StarRatings from '../../node_modules/react-star-ratings';
 
 import {ChipSelect} from '../../components/ChipSelect'
 
+import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
+import {WatchAuthor} from '../WatchAuthor/WatchAuthor';
 
 const useStyles = makeStyles(theme => ({
     container: { 
@@ -36,22 +38,59 @@ const useStyles = makeStyles(theme => ({
 
 const Authors = props => {
 
-    const { onAuthorSelected, recommendedAuthors, setRecommendedAuthors,  ...rest } = props;
+    const { history, match, onAuthorSelected, author,  recommendedAuthors, setRecommendedAuthors, showWatchAuthor, selection,setSelection,  ...rest } = props;
 
-    const classes = useStyles();
-    // Dummy array of test values.
-    const options = Array.from(new Array(1000), (_, index) => ({
-      label: `Item ${index}`,
-      value: index
-    }));
+    // <Route path={`${match.url}/search`} component={({match}) => 
+
+    const renderRedirect = (showWatchAuthor) => {
+      if(showWatchAuthor) {
+        return <Redirect
+        exact
+        from="/"
+        to={`${match.url}/watch`}
+        push={true}
+      /> 
+       } else { 
+        return <Redirect
+          exact
+          from="/"
+          to={`${match.url}/search`}
+          push={true}
+  
+        /> 
+       }
+    }
 
     return (
-         <Container  className={classes.container}  maxWidth="md"> 
-            <ChipSelect setRecommendedAuthors={setRecommendedAuthors}></ChipSelect>
-            <AuthorsList recommendedAuthors={recommendedAuthors} small={false} onAuthorSelected={onAuthorSelected}></AuthorsList>
-         </Container>
+      <div>
+
+        {renderRedirect(showWatchAuthor)}
+
+      <Switch>
+        <Route path={`${match.url}/search`}  component={({match}) => 
+          <SearchView onAuthorSelected={onAuthorSelected} recommendedAuthors={recommendedAuthors} setRecommendedAuthors={setRecommendedAuthors} selection={selection} setSelection={setSelection}></SearchView>}/>
+        <Route path={`${match.url}/watch`} component={({match}) => 
+          <WatchAuthor onAuthorSelected={onAuthorSelected} recommendedAuthors={recommendedAuthors} author={author}></WatchAuthor>}/>
+      </Switch>
+      
+      </div>
+
     );
   };
+
+  //TODO: Separate file (like WatchAuthor)
+  const SearchView = props => {
+
+    const { match, onAuthorSelected, recommendedAuthors, setRecommendedAuthors, selection, setSelection,  ...rest } = props;
+    const classes = useStyles();
+
+    return (
+      <Container  className={classes.container}  maxWidth="md"> 
+          <ChipSelect setRecommendedAuthors={setRecommendedAuthors} selection={selection} setSelection={setSelection}></ChipSelect>
+          <AuthorsList recommendedAuthors={recommendedAuthors} small={false} onAuthorSelected={onAuthorSelected}></AuthorsList>
+      </Container>
+    )
+  }
 
   const AuthorsList= props => {
 

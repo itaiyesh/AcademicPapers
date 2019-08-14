@@ -86,8 +86,7 @@ const useStyles = makeStyles(theme => ({
     const classes = useCardStyles();
     const theme = useTheme();
 
-    const {onAuthorSelected,  onSearchQueryResults, recommendedAuthors, author, ...rest } = props;
-    console.log(author);
+    const {onAuthorSelected, recommendedAuthors, author, ...rest } = props;
 
     return (
       <Container>

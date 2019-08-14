@@ -39,12 +39,13 @@ const Sidebar = props => {
   const pages = [
     {
       title: 'Authors',
-      href: '/authors',
+      href: '/authors/search',
       icon: <LockOpenIcon/>
-    },
+    }
+    ,
     {
-      title: 'Dashboard',
-      href: '/dashboard',
+      title: 'Papers',
+      href: '/papers',
       icon: <DashboardIcon />
     }
 

@@ -281,15 +281,16 @@ Menu.propTypes = {
 
 
 function ChipSelect(props) {
-  const { setRecommendedAuthors } = props;
+  const { recommendedAuthors, setRecommendedAuthors, selection, setSelection } = props;
 
   const classes = useStyles();
   const theme = useTheme();
-  const [multi, setMulti] = React.useState(null);
+  //TODO: Bug: this needs to be in global state so it will be saved between routes
   const [isLoading, setIsLoading] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState([]);
   const [searchQuery, setSearchQuery] = React.useState("");
 
+  
 //Puting this message inside the hook, as we need access to the state  
 function NoOptionsMessage(props) {
   if(searchQuery == "") { 
@@ -338,9 +339,10 @@ const components = {
 };
   function handleChangeMulti(value) {
 
-    setMulti(value);
+    setSelection(value);
   
     //TODO: Need to send request to fetch new authors based on 'value'
+    //Must be done in server side - we need to re-fetch data only for the selected authors.
     //TODO: If value is empty, fetch best authors as usual.
     fetch('/search_authors', {
       method: 'post',
@@ -354,6 +356,8 @@ const components = {
               //TODO: 
               //update authors data
               // console.log("Before");
+              console.log("Setting recommended authors:");
+              console.log(post);
               setRecommendedAuthors(post);
               // console.log("Settings:");
               // console.log(post);
@@ -369,7 +373,7 @@ const components = {
 
   //TODO: refactor this function outside
   function handleInputChange(newValue: string, actionMeta: InputActionMeta) {
-
+    console.log("Handle input changed: ",newValue)
     setSearchQuery(newValue);
 
     if(newValue=="") {
@@ -448,7 +452,7 @@ const components = {
           placeholder="Search specific authors"
           options={suggestions}
           components={components}
-          value={multi}
+          value={selection}
           onChange={handleChangeMulti}
           isMulti
           isLoading={isLoading}
