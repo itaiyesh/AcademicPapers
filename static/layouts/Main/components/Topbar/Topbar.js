@@ -82,10 +82,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = props => {
-  const { className, onSidebarOpen, onSearchQueryResults, ...rest } = props;
+  const { className, onSidebarOpen, onSearchQueryResults,searchQuery, setSearchQuery, ...rest } = props;
   const classes = useStyles();
 
-  const [searchQuery, setSearchQuery] = React.useState("");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 

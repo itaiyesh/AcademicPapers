@@ -2,31 +2,9 @@ import React, {useState} from 'react';
 import { BrowserRouter, Switch, Redirect } from 'react-router-dom';
 
 import { RouteWithLayout } from '../components';
-import { Main as MainLayout, Minimal as MinimalLayout } from '../layouts';
-
-// import {
-//   Dashboard as DashboardView,
-//   ProductList as ProductListView,
-//   UserList as UserListView,
-//   Typography as TypographyView,
-//   Icons as IconsView,
-//   Account as AccountView,
-//   Settings as SettingsView,
-//   SignUp as SignUpView,
-//   SignIn as SignInView,
-//   NotFound as NotFoundView
-
-//   ,Authors as AuthorsView
-// } from '../views';
-
- 
+import { Main as MainLayout, Minimal as MinimalLayout } from '../layouts'; 
 import { Authors as AuthorsView} from '../views/Authors/Authors';
 import { Dashboard as DashboardView } from '../views/Dashboard/Dashboard'
-import { UserList as UserListView } from '../views/UserList/UserList'
-import { ProductList as ProductListView } from '../views/ProductList/ProductList'
-import { Typography as TypographyView } from '../views/Typography/Typography'
-import { Icons as IconsView } from '../views/Icons/Icons'
-import { Account as AccountView } from '../views/Account/Account'
 import { WatchAuthor as WatchAuthorView } from '../views/WatchAuthor/WatchAuthor'
 
 import { createHashHistory } from 'history'
@@ -41,17 +19,16 @@ const Routes = () => {
   const [showWatchAuthor, setShowWatchAuthor] = useState(false);
   // const [showAuthors, setShowAuthors] = useState(false);
 
+  const [searchQuery, setSearchQuery] = React.useState("");
+
+
   const onSearchQueryResults = (results) => {
-      console.log("Routes.js onSearchQueryResults", results);
       setRecommendedAuthors(results);
-      // setShowAuthors(true);
       setShowWatchAuthor(false);
 
   };
 
   const onAuthorSelected = (author) => {
-    console.log("Routes.js onAuthorSelected:", author);
-    // setRecommendedAuthors(results);
     setAuthor(author);
     setShowWatchAuthor(true);
 };
@@ -83,11 +60,13 @@ const Routes = () => {
         component={AuthorsView}
         // exact
         layout={MainLayout}
+        searchQuery = {searchQuery}
+        setSearchQuery = {setSearchQuery}
         onSearchQueryResults={onSearchQueryResults}
         onAuthorSelected={onAuthorSelected}
         recommendedAuthors = {recommendedAuthors}
         setRecommendedAuthors = {setRecommendedAuthors}
-
+        
         //Author is redundant here
         author = {author}
 
@@ -97,6 +76,8 @@ const Routes = () => {
         component={WatchAuthorView}
         // exact
         layout={MainLayout}
+        searchQuery = {searchQuery}
+        setSearchQuery = {setSearchQuery}
         onSearchQueryResults={onSearchQueryResults}
         onAuthorSelected={onAuthorSelected}
 
@@ -110,7 +91,8 @@ const Routes = () => {
         component={DashboardView}
         // exact
         layout={MainLayout}
-
+        searchQuery = {searchQuery}
+        setSearchQuery = {setSearchQuery}
         //This may be redundant
         onSearchQueryResults={onSearchQueryResults}
         onAuthorSelected={onAuthorSelected}

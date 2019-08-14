@@ -18,35 +18,6 @@ const suggestionsORIG = [
   { label: 'Albania' },
   { label: 'Algeria' },
   { label: 'American Samoa' },
-  // { label: 'Andorra' },
-  // { label: 'Angola' },
-  // { label: 'Anguilla' },
-  // { label: 'Antarctica' },
-  // { label: 'Antigua and Barbuda' },
-  // { label: 'Argentina' },
-  // { label: 'Armenia' },
-  // { label: 'Aruba' },
-  // { label: 'Australia' },
-  // { label: 'Austria' },
-  // { label: 'Azerbaijan' },
-  // { label: 'Bahamas' },
-  // { label: 'Bahrain' },
-  // { label: 'Bangladesh' },
-  // { label: 'Barbados' },
-  // { label: 'Belarus' },
-  // { label: 'Belgium' },
-  // { label: 'Belize' },
-  // { label: 'Benin' },
-  // { label: 'Bermuda' },
-  // { label: 'Bhutan' },
-  // { label: 'Bolivia, Plurinational State of' },
-  // { label: 'Bonaire, Sint Eustatius and Saba' },
-  // { label: 'Bosnia and Herzegovina' },
-  // { label: 'Botswana' },
-  // { label: 'Bouvet Island' },
-  // { label: 'Brazil' },
-  // { label: 'British Indian Ocean Territory' },
-  // { label: 'Brunei Darussalam' },
 ].map(suggestion => ({
   value: suggestion.label,
   label: suggestion.label,
@@ -101,29 +72,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NoOptionsMessage(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.noOptionsMessage}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
-NoOptionsMessage.propTypes = {
-  /**
-   * The children to be rendered.
-   */
-  children: PropTypes.node,
-  /**
-   * Props to be passed on to the wrapper.
-   */
-  innerProps: PropTypes.object.isRequired,
-  selectProps: PropTypes.object.isRequired,
-};
 
 function inputComponent({ inputRef, ...props }) {
   return <div ref={inputRef} {...props} />;
@@ -223,7 +171,7 @@ Option.propTypes = {
    */
   innerProps: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    key: PropTypes.string.isRequired,
+    // key: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     onMouseMove: PropTypes.func.isRequired,
     onMouseOver: PropTypes.func.isRequired,
@@ -232,13 +180,13 @@ Option.propTypes = {
   /**
    * Inner ref to DOM Node
    */
-  innerRef: PropTypes.oneOfType([
-    PropTypes.oneOf([null]),
-    PropTypes.func,
-    PropTypes.shape({
-      current: PropTypes.any.isRequired,
-    }),
-  ]).isRequired,
+  // innerRef: PropTypes.oneOfType([
+  //   PropTypes.oneOf([null]),
+  //   PropTypes.func,
+  //   PropTypes.shape({
+  //     current: PropTypes.any.isRequired,
+  //   }),
+  // ]).isRequired,
   /**
    * Whether the option is focused.
    */
@@ -330,15 +278,7 @@ Menu.propTypes = {
   selectProps: PropTypes.object.isRequired,
 };
 
-const components = {
-  Control,
-  Menu,
-  MultiValue,
-  NoOptionsMessage,
-  Option,
-  Placeholder,
-  ValueContainer
-};
+
 
 function ChipSelect(props) {
   const { setRecommendedAuthors } = props;
@@ -348,11 +288,57 @@ function ChipSelect(props) {
   const [multi, setMulti] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState([]);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
+//Puting this message inside the hook, as we need access to the state  
+function NoOptionsMessage(props) {
+  if(searchQuery == "") { 
+    return (
+      <Typography
+        color="textSecondary"
+        className={props.selectProps.classes.noOptionsMessage}
+        // {...props.innerProps}
+      >
+        Please be more specific
+      </Typography>
+    );
+  }
+  else { 
+    return (
+      <Typography
+        color="textSecondary"
+        className={props.selectProps.classes.noOptionsMessage}
+        // {...props.innerProps}
+      >
+        {props.children}
+      </Typography>
+    );
+  }
+}
+
+NoOptionsMessage.propTypes = {
+  /**
+   * The children to be rendered.
+   */
+  children: PropTypes.node,
+  /**
+   * Props to be passed on to the wrapper.
+   */
+  // innerProps: PropTypes.object.isRequired,
+  selectProps: PropTypes.object.isRequired,
+};
+const components = {
+  Control,
+  Menu,
+  MultiValue,
+  NoOptionsMessage,
+  Option,
+  Placeholder,
+  ValueContainer
+};
   function handleChangeMulti(value) {
 
     setMulti(value);
-
   
     //TODO: Need to send request to fetch new authors based on 'value'
     //TODO: If value is empty, fetch best authors as usual.
@@ -370,7 +356,7 @@ function ChipSelect(props) {
               // console.log("Before");
               setRecommendedAuthors(post);
               // console.log("Settings:");
-              console.log(post);
+              // console.log(post);
             }
            )
        )
@@ -383,7 +369,18 @@ function ChipSelect(props) {
 
   //TODO: refactor this function outside
   function handleInputChange(newValue: string, actionMeta: InputActionMeta) {
+
+    setSearchQuery(newValue);
+
+    if(newValue=="") {
+      //Clear suggestions
+      console.log("Clearing suggestions");
+      setSuggestions([]);
+      return;
+    }
+
     setIsLoading(true);
+
     fetch('/authors_suggestions', {
       method: 'post',
       headers: {'Content-Type':'application/json'},

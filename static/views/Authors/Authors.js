@@ -2,19 +2,8 @@ import React, {useEffect } from 'react';
 import { makeStyles, useTheme  } from '@material-ui/styles';
 import GridList from '@material-ui/core/GridList';
 import List from '@material-ui/core/List';
-
-import GridListTile from '@material-ui/core/GridListTile';
-import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
-// import { SearchInput } from '../../components/SearchInput/SearchInput';
-import user_logo from '../../assets/user.png'
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import PersonIcon from '@material-ui/icons/Person';
@@ -23,10 +12,6 @@ import Avatar from '@material-ui/core/Avatar';
 import StarRatings from '../../node_modules/react-star-ratings';
 
 import {ChipSelect} from '../../components/ChipSelect'
-
-
-console.log(user_logo)
-// Add this in your component file
 
 
 const useStyles = makeStyles(theme => ({
@@ -53,24 +38,6 @@ const Authors = props => {
 
     const { onAuthorSelected, recommendedAuthors, setRecommendedAuthors,  ...rest } = props;
 
-    console.log("onAuthorSelected2:  ", onAuthorSelected)
-
-    //TODO: Remove mock
-    // var recommendedAuthors = [
-    //   {  'id': 0,
-    
-    //     'name': 'itai', 
-    //   'papers': [{'name': 'the best paper in the world', 'year': 1986}, {'name': 'the second best paper in the world', 'date': 2019}],
-    //   'score': 9.7,
-    // },
-    //   {  'id': 1,
-    
-    //     'name': 'amit', 
-    //   'papers': [{'name': 'the best paper in the world', 'year': 1986}, {'name': 'the second best paper in the world', 'date': 2019}],
-    // 'score': 9.6}
-    
-    // ];
-
     const classes = useStyles();
     // Dummy array of test values.
     const options = Array.from(new Array(1000), (_, index) => ({
@@ -80,9 +47,7 @@ const Authors = props => {
 
     return (
          <Container  className={classes.container}  maxWidth="md"> 
-
-        {/* <Select options={options} /> */}
-        <ChipSelect setRecommendedAuthors={setRecommendedAuthors}></ChipSelect>
+            <ChipSelect setRecommendedAuthors={setRecommendedAuthors}></ChipSelect>
             <AuthorsList recommendedAuthors={recommendedAuthors} small={false} onAuthorSelected={onAuthorSelected}></AuthorsList>
          </Container>
     );
@@ -92,12 +57,6 @@ const Authors = props => {
 
     const { recommendedAuthors, small, onAuthorSelected,  ...rest } = props;
     const classes = useStyles();
-    // console.log(onAuthorSelected);
-    // function handleClick(e, author) {
-    //   e.preventDefault();
-    //   console.log('The link was clicked.');
-    //   onAuthorSelected();
-    // }
     return (
           <GridList cellHeight={160} className={classes.gridList} cols={1} spacing={16} >
           {recommendedAuthors.map(author => (
@@ -141,16 +100,9 @@ const Authors = props => {
 
     const { author, small, ...rest } = props;
 
-    console.log("SMALL", small);
-
-    useEffect(() => {
-      document.title ='You clicked';
-    });
-
-    // onclick={()=> {
-    //   console.log("Clicked author", author);
-    //   onAuthorSelected(author)}
-    //   }
+    // useEffect(() => {
+    //   document.title ='You clicked';
+    // });
 
     if(small) {
       return (
@@ -176,26 +128,11 @@ const Authors = props => {
     else { 
     return (
       <Card className={classes.card} style={{cursor: 'pointer'}}>
-        {/* <img src={user_logo} alt="Logo" width="100" height="100" /> */}
-        {/* <Grid container style={{padding: theme.spacing(1)}}>  */}
+
         <Grid container> 
-
-        {/* ={{justifyContent: 'center', display:'flex', flexDirection: 'column', alignItems: 'center'}} > */}
-        {/* <PersonIcon className={classes.personIcon}></PersonIcon> */}
-        {/* <AccountCircle className={classes.personIcon}></AccountCircle> */}
-        {/* "https://scholar.google.com/citations?view_op=medium_photo&user=Smr99uEAAAAJ" */}
-        {/* <img src={author.img}></img> */}
-        {/* style={{alignItems: 'center', display:'flex', justifyContent:'center'}} */}
-        {/* <Grid item md={2} style={{alignItems: 'center', display:'flex', justifyContent:'center', padding: theme.spacing(2)}} >
-          <Avatar src={author.img} style={{height: 120, width: 120}}  ></Avatar>
-          </Grid> */}
-
-
         <Grid item md={2} style={{alignItems:'center', justifyContent:'center', display: 'flex'}}>
           <img src={author.img} style={{maxHeight: '100%', maxWidth:'100%'}}></img>
         </Grid>
-
-        {/* <div className={classes.details}> */}
 
         <Grid item md={8}   style={{paddingTop: theme.spacing(3), paddingBottom: theme.spacing(2)}} >
           <Grid container md={12} style={{ flex: 1, alignItems:'center'}} > 
@@ -206,16 +143,7 @@ const Authors = props => {
                   {author.affiliation}
               </Typography>
             </Grid>
-            {/* <Grid container md={12} style={{ flex: }} > 
-              <Typography inline component="h4" variant="h4" style={{paddingLeft: theme.spacing(2)}} >
-                  {author.name}
-                </Typography>
-              <Typography inline ariant="h6" color="textSecondary" style={{paddingLeft: theme.spacing(2)}}  >
-                  {author.affiliation}
-              </Typography>
-            </Grid> */}
           <Grid item md={12} style={{ flex: 4, paddingLeft: theme.spacing(2)}}>
-            {/* <Typography variant="subtitle1" color="textSecondary"> */}
               <List>
                 {author.papers.map(paper => (
                   <div key={paper.id} >
@@ -229,7 +157,6 @@ const Authors = props => {
                   </div>
                 ))}
                 </List>
-            {/* </Typography> */}
             </Grid>
           </Grid>
         <Grid item md={2} style={{padding: theme.spacing(3), alignItems:'center', display: 'flex' , flexDirection:'column'}}>
@@ -253,21 +180,9 @@ const Authors = props => {
               </div>
           </Grid>
           </Grid>
-          {/* </CardContent> */}
-      {/* <CardMedia
-        className={classes.cover}
-        image={user_logo}
-        title="YOYOYOYO"
-      /> */}
     </Card>
 
     );
     }
   };
 export { Authors, Author, AuthorsList };
-// return (
-    //     <div>
-    //       <p>{author.id}</p>
-    //       <p>{author.name}</p>
-    //     </div>
-    // );

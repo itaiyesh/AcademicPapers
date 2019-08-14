@@ -13,8 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
-// import { SearchInput } from '../../components/SearchInput/SearchInput';
-import user_logo from '../../assets/user.png'
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import PersonIcon from '@material-ui/icons/Person';
@@ -23,7 +21,6 @@ import Avatar from '@material-ui/core/Avatar';
 
 import {AuthorsList} from '../Authors/Authors';
 
-console.log(user_logo)
 // Add this in your component file
 
 

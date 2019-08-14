@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Main = props => {
-  const { children, onSearchQueryResults } = props;
+  const { children, onSearchQueryResults, searchQuery, setSearchQuery, } = props;
 
   const classes = useStyles();
   const theme = useTheme();
@@ -57,7 +57,7 @@ const Main = props => {
         [classes.shiftContent]: isDesktop
       })}
     >
-      <Topbar onSidebarOpen={handleSidebarOpen} onSearchQueryResults={onSearchQueryResults} />
+      <Topbar onSidebarOpen={handleSidebarOpen} onSearchQueryResults={onSearchQueryResults} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <Sidebar
         onClose={handleSidebarClose}
         open={shouldOpenSidebar}
