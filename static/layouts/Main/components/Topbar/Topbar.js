@@ -17,6 +17,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import clsx from 'clsx';
 import Container from '@material-ui/core/Container';
+import {debounce} from '../../../../node_modules/lodash';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -38,12 +40,13 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
+    // marginRight: theme.spacing(2),
+    // marginLeft: 0,
     // width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
+      // width: 'auto',
+      // width: '70%',
     },
   },
   searchIcon: {
@@ -172,22 +175,7 @@ const Topbar = props => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
+
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -207,18 +195,20 @@ const Topbar = props => {
       <AppBar  {...rest}
             className={clsx(classes.root, className)}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap color="inherit">
-            Paper-AI
-          </Typography>
-          <Container>
+            <Box display='flex' flexDirection='row' width='218'  alignItems='center'>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="open drawer"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography className={classes.title} variant="h6" noWrap color="inherit">
+              Expert lookup
+            </Typography>
+          </Box>
+          <Container maxWidth="md">
           <div className={clsx(classes.search) }>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -238,16 +228,6 @@ const Topbar = props => {
           </div>
           </Container>
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
             <IconButton
               edge="end"
               aria-label="account of current user"

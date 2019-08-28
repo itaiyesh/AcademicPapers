@@ -18,6 +18,7 @@ import Container from '@material-ui/core/Container';
 import PersonIcon from '@material-ui/icons/Person';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 
 import {AuthorsList} from '../Authors/Authors';
 
@@ -89,13 +90,13 @@ const useStyles = makeStyles(theme => ({
     const {onAuthorSelected, recommendedAuthors, author, ...rest } = props;
 
     return (
-      <Container>
-      <AuthorDetails author={author}>
+      <Box display="flex" flexDirection="row" >
+      <AuthorDetails  author={author}>
       </AuthorDetails>
-      <AuthorsList recommendedAuthors={recommendedAuthors} small={true} onAuthorSelected={onAuthorSelected}>
+      <AuthorsList  recommendedAuthors={recommendedAuthors} small={true} onAuthorSelected={onAuthorSelected}>
 
       </AuthorsList>
-      </Container>
+      </Box>
 
     );
 

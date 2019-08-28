@@ -35,7 +35,7 @@ class App extends Component {
 
     const { data } = this.props.data
 
-    console.log(data);
+    // console.log(data);
     
     return (
       <ThemeProvider theme={theme}>

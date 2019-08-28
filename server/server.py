@@ -4,6 +4,7 @@
 import random
 from flask import Flask, render_template,jsonify, request
 import json
+from db_handler import DbHandler
 
 app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
 
@@ -13,6 +14,8 @@ app = Flask(__name__, static_folder='../static/dist', template_folder='../static
 #     # return 'You want path: %s' % path
 #     return render_template('index.html', data = path )
 
+db_handler = DbHandler()
+print("Connected to db.")
 
 @app.route('/')
 def index():
@@ -25,6 +28,8 @@ def search_authors():
     # POST request
     if request.method == 'POST':
         query = request.get_json()['query']
+
+        print("Query: ",query)
 
         #TODO: fetch string...
         def mock_object(i):

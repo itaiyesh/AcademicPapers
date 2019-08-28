@@ -24,6 +24,12 @@ const Routes = () => {
 
   //Author filter selection
   const [selection, setSelection] = React.useState(null);
+  
+  //Bug fix: Bug that switches view to authors/watch after going from authors/watch->authors/search and changing filters
+  const setRecommendedAuthors_ = (recommendedAuthors) => {
+    setShowWatchAuthor(false) //all this function is for the addition of this line <---
+    setRecommendedAuthors(recommendedAuthors);
+  }
 
   const onSearchQueryResults = (results) => {
       setRecommendedAuthors(results);
@@ -48,7 +54,7 @@ const Routes = () => {
     // This was Switch
     <BrowserRouter> 
 
-
+      {/* TODO: every component re-renders everytime a letter is changed -> changing searchQuery state in parent */}
      <MainLayout onSearchQueryResults={onSearchQueryResults} searchQuery={searchQuery} setSearchQuery={setSearchQuery}>
          <Redirect
           exact
@@ -63,7 +69,7 @@ const Routes = () => {
                onAuthorSelected={onAuthorSelected} 
               author={author} 
               recommendedAuthors={recommendedAuthors} 
-              setRecommendedAuthors={setRecommendedAuthors}
+              setRecommendedAuthors={setRecommendedAuthors_}
               selection={selection}
               setSelection={setSelection}
               

@@ -97,7 +97,7 @@ const Authors = props => {
     const { recommendedAuthors, small, onAuthorSelected,  ...rest } = props;
     const classes = useStyles();
     return (
-          <GridList cellHeight={160} className={classes.gridList} cols={1} spacing={16} >
+          <GridList cellHeight={160} className={classes.gridList} cols={1} spacing={5} >
           {recommendedAuthors.map(author => (
             <div key={author.id}  onClick={e=>onAuthorSelected(author)}>
                 <Author author={author} small={small} ></Author>

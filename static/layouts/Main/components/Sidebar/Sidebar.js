@@ -5,8 +5,10 @@ import { makeStyles } from '@material-ui/styles';
 import { Divider, Drawer } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-
-import { Profile, SidebarNav, UpgradePlan } from './components';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import ExploreIcon from '@material-ui/icons/Explore';
+import { SidebarNav } from './components';
+import SchoolIcon from '@material-ui/icons/School';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -38,15 +40,15 @@ const Sidebar = props => {
 
   const pages = [
     {
-      title: 'Authors',
+      title: 'Reviewers',
       href: '/authors/search',
-      icon: <LockOpenIcon/>
+      icon: <SchoolIcon/>
     }
     ,
     {
-      title: 'Papers',
+      title: 'Map',
       href: '/papers',
-      icon: <DashboardIcon />
+      icon: <ExploreIcon />
     }
 
   ];
@@ -63,13 +65,11 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <Profile />
-        <Divider className={classes.divider} />
+        {/* <Divider className={classes.divider} /> */}
         <SidebarNav
           className={classes.nav}
           pages={pages}
         />
-        <UpgradePlan />
       </div>
     </Drawer>
   );

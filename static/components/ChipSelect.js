@@ -359,6 +359,9 @@ const components = {
               console.log("Setting recommended authors:");
               console.log(post);
               setRecommendedAuthors(post);
+              //Bug fix: Bug that switches view to authors/watch after going from authors/watch->authors/search and changing filters
+              // setShowWatchAuthor(false);
+
               // console.log("Settings:");
               // console.log(post);
             }
@@ -449,7 +452,7 @@ const components = {
               shrink: true,
             },
           }}
-          placeholder="Search specific authors"
+          placeholder="Select specific experts"
           options={suggestions}
           components={components}
           value={selection}
