@@ -5,6 +5,9 @@ import random
 from flask import Flask, render_template,jsonify, request
 import json
 from db_handler import DbHandler
+from inference.cf import CFHandler
+# from inference.semantic import SemanticHandler
+import os
 
 app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
 
@@ -14,8 +17,11 @@ app = Flask(__name__, static_folder='../static/dist', template_folder='../static
 #     # return 'You want path: %s' % path
 #     return render_template('index.html', data = path )
 
-db_handler = DbHandler()
-print("Connected to db.")
+# db_handler = DbHandler()
+# print("Connected to db.")
+
+# cf = CFHandler('1-YTx2EbIctCN-SNwgPHbsoqVNFdAhTXa', '1-JiAeAJ_0XWXxkRteRP1my84x57cpVmg')
+# semantic = SemanticHandler('1prP-cY9c2UXmBJMqaADTsXC9jkzIGfbb', '1syCdLDt2knRQaTb_QB5CH6Eb_4GKIUON', None )
 
 @app.route('/')
 def index():
@@ -62,20 +68,27 @@ def search_paper():
     if request.method == 'POST':
         query = request.get_json()['query']
 
+        print(query)
+        #TODO:
+        # cf and semantic, combine results
+        # return json.dumps(cf.get_recommended_authors([2041014688], 5))
+        # add features from dbhandler on authors
+        # return results
+
         #TODO: fetch string...
         def mock_object(i):
-          if random.random() > 0.5 : 
+          if random.random() > 0.5 :
             return {  'id': str(i),
-              'name': 'Shaul Markovitch', 
+              'name': 'Shaul Markovitch',
               'img': 'https://scholar.google.com/citations?view_op=medium_photo&user=bYcqNlgAAAAJ',
               'affiliation': 'Professor of Computer Science, Technion - Israel Institute of Technology',
               'papers': [{'id':0, 'name': 'the best paper in the world', 'year': 1986}, {'id':1,'name': 'this is the second best paper in the world, for sure, no doubt. really', 'year': 2019}],
               'score': random.random()*10,
-               } 
+               }
           else:
             return {
               'id': str(i),
-              'name': 'somebody', 
+              'name': 'somebody',
               'img': 'https://scholar.google.com/citations?view_op=medium_photo&user=Smr99uEAAAAJ',
               'affiliation': 'Professor of some university',
               'papers': [{'id':0, 'name': 'the best paper in the world', 'year': 1986}, {'id':1,'name': 'this is the second best paper in the world, for sure, no doubt. really', 'year': 2019}],
@@ -84,6 +97,7 @@ def search_paper():
         recommendedAuthors = list(map(
              lambda i: mock_object(i) , range(20)
         ))
+
         return json.dumps(recommendedAuthors)
 
 
