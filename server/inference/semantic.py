@@ -59,6 +59,8 @@ class SemanticHandler:
 
     def get_recommended_authors(self, title, top):
         field = 100 #Search field
+        AUTHORING_WEIGHT = 2
+        CITING_WEIGHT = 1
         embs = self.bert.get_embeddings_for_sentence(title)
         paper_ids = self.index.search(embs, field)
         if self.paper2data_shelve is None: return paper_ids
@@ -69,7 +71,10 @@ class SemanticHandler:
             # TODO: Consider paper distance
             for paper_id in paper_ids:
                 for author in paper2data[paper_id]['authors']:
-                    author2score[author] += 1
+                    author2score[author] += AUTHORING_WEIGHT
+                if 'citing_authors' in paper2data[paper_id]:
+                    for author in paper2data[paper_id]['citing_authors']:
+                        author2score[author] += CITING_WEIGHT
 
         return [occurrence[0] for occurrence in author2score.most_common(top)]
 

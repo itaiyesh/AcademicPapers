@@ -20,17 +20,16 @@ app = Flask(__name__, static_folder='../static/dist', template_folder='../static
 use_semantic = False
 
 # Revolet
-
 # Force override doesnt work. must delete model and associated files.
 cf = CFHandler('109jikL9APOQLYLWVbh0BPzsKh4Fj1E5y','1d4uAconWl18s629ZUMaZlXkopD2Vfzh3', '1-JiAeAJ_0XWXxkRteRP1my84x57cpVmg',
                force_download=False)
 # cf = CFHandler('1-YTx2EbIctCN-SNwgPHbsoqVNFdAhTXa', '1-JiAeAJ_0XWXxkRteRP1my84x57cpVmg')
 
-# Itaiyesh (or sum?)
-# Take paper2data (authors, citing authors) from CF
+# Sum
+# Take paper2data (authors, citing authors) from CF (Revolet)
 if use_semantic:
     from inference.semantic import SemanticHandler
-    semantic = SemanticHandler('1prP-cY9c2UXmBJMqaADTsXC9jkzIGfbb', '1syCdLDt2knRQaTb_QB5CH6Eb_4GKIUON', None)
+    semantic = SemanticHandler('1prP-cY9c2UXmBJMqaADTsXC9jkzIGfbb', '1syCdLDt2knRQaTb_QB5CH6Eb_4GKIUON', '1-H_P6t33LNMfaAuD7qtj7b9hD-RviLvQ')
 
 db_handler = DBHandler(cf)
 
