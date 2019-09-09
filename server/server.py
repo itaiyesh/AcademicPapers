@@ -18,20 +18,20 @@ app = Flask(__name__, static_folder='../static/dist', template_folder='../static
 
 
 use_semantic = False
+use_db = False
 
 # Revolet
 # Force override doesnt work. must delete model and associated files.
 cf = CFHandler('109jikL9APOQLYLWVbh0BPzsKh4Fj1E5y','1d4uAconWl18s629ZUMaZlXkopD2Vfzh3', '1-JiAeAJ_0XWXxkRteRP1my84x57cpVmg',
                force_download=False)
-# cf = CFHandler('1-YTx2EbIctCN-SNwgPHbsoqVNFdAhTXa', '1-JiAeAJ_0XWXxkRteRP1my84x57cpVmg')
 
 # Sum
 # Take paper2data (authors, citing authors) from CF (Revolet)
 if use_semantic:
     from inference.semantic import SemanticHandler
-    semantic = SemanticHandler('1prP-cY9c2UXmBJMqaADTsXC9jkzIGfbb', '1syCdLDt2knRQaTb_QB5CH6Eb_4GKIUON', '1-H_P6t33LNMfaAuD7qtj7b9hD-RviLvQ')
+    semantic = SemanticHandler('1-n-GephieNUHJ-pXeHIoX-rjMWRtssKj', '11rB0mV9o5Uk78d8bIjzDR4obnHtn2bwc', '1-H_P6t33LNMfaAuD7qtj7b9hD-RviLvQ')
 
-db_handler = DBHandler(cf)
+db_handler = DBHandler(cf, mock=not use_db)
 
 def get_best_authors(title, author_ids, top=10):
     if len(author_ids) > 0:
@@ -73,19 +73,29 @@ def get_best_authors(title, author_ids, top=10):
     print(author2data)
     print(authors_idx_tuples)
 
-    return [
-        {'id': author_id,
+    authors_with_extended_data = []
+    for (author_id, score) in authors_idx_tuples:
+        author_data = {'id': author_id,
          'score': len(authors_idx_tuples) - score,
-         'interests': author2data[author_id]['interests'] if author_id in author2data else 'Author not in db',
-         'affiliation': author2data[author_id]['affiliation'] if author_id in author2data else 'Author not in db',
+         'interests':  'Author not in db',
+         'affiliation': 'Author not in db',
          # TODO: Author should ALWAYS be in DB
-         'img': author2data[author_id]['img']  if author_id in author2data  else 'https://scholar.google.com/citations?view_op=medium_photo&user=Smr99uEAAAAJ',
-         'name': author2data[author_id]['name'] if author_id in author2data else 'Author not in db',
-         'citedby': author2data[author_id]['citedby'] if author_id in author2data else 'Author not in db',
-         'papers': []}
+         'img': 'https://scholar.google.com/citations?view_op=medium_photo&user=Smr99uEAAAAJ',
+         'name':  'Author not in db',
+         'citedby': 'Author not in db',
+         'papers': []
+         }
 
-        for (author_id, score) in authors_idx_tuples
-    ]
+        if author_id in author2data:
+            extended_data = author2data[author_id]
+            for field in ['interests', 'affiliation', 'img', 'name', 'citedby', 'papers']:
+                if field in extended_data:
+                    author_data[field] = extended_data[field]
+
+        authors_with_extended_data.append(author_data)
+
+    return authors_with_extended_data
+
 
 
 @app.route('/')
@@ -101,6 +111,7 @@ def search_authors():
     if request.method == 'POST':
         query = request.get_json()['query']
 
+        #TODO: NOT IMPLEMENTED
         print("Query: ", query)
 
         # # TODO: fetch string...
@@ -140,6 +151,7 @@ def search_paper():
     if request.method == 'POST':
         title = request.get_json()['title']
         authors = request.get_json()['authors']
+
         print(title, authors)
 
         return json.dumps(get_best_authors(title, authors))
@@ -185,14 +197,7 @@ def get_author_suggestions():
 
         # authors = cf.filter_authors(authors)
 
-        return json.dumps([
-            {'id': id,
-            # 'img': 'https://scholar.google.com/citations?view_op=medium_photo&user=bYcqNlgAAAAJ',
-             # TODO: Get REAL img from db.
-             'img': 'https://scholar.google.com/citations?view_op=medium_photo&user=Smr99uEAAAAJ',
-            'name': name
-            }
-            for (id, name) in authors])
+        return json.dumps(authors)
 
         # # TODO: fetch authors beginning with string...
         # def mock_object(i):
