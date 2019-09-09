@@ -77,9 +77,12 @@ def get_best_authors(title, author_ids, top=10):
     return [
         {'id': author_id,
          'score': len(authors_idx_tuples) - score,
+         'interests': author2data[author_id]['interests'] if author_id in author2data else 'Author not in db',
+         'affiliation': author2data[author_id]['affiliation'] if author_id in author2data else 'Author not in db',
          # TODO: Author should ALWAYS be in DB
-         'img': 'https://scholar.google.com/citations?view_op=medium_photo&user=Smr99uEAAAAJ',
-        'name': author2data[author_id]['name'] if author_id in author2data else 'Author not in db',
+         'img': author2data[author_id]['img']  if author_id in author2data  else 'https://scholar.google.com/citations?view_op=medium_photo&user=Smr99uEAAAAJ',
+         'name': author2data[author_id]['name'] if author_id in author2data else 'Author not in db',
+         'citedby': author2data[author_id]['citedby'] if author_id in author2data else 'Author not in db',
          'papers': []}
 
         for (author_id, score) in authors_idx_tuples
