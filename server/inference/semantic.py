@@ -4,7 +4,7 @@ import faiss
 import shelve
 from sentence_transformers import SentenceTransformer
 from collections import Counter
-
+import warnings
 
 # Bert (FINE TUNED)
 class BertEmbeddingHandler:
@@ -41,28 +41,35 @@ class IndexHandler:
 
 
 class SemanticHandler:
-    def __init__(self, model_id, index_id, paper2authors_shelve_id, force_download=False):
+    def __init__(self, model_id, index_id, paper2data_shelve_id = None, force_download=False):
         self.bert = BertEmbeddingHandler(model_id, force_download)
         self.index = IndexHandler(index_id, force_download)
 
-        self.paper2authors_shelve = 'paper2authors_shelve'
-        if not os.path.exists(self.paper2authors_shelve) or force_download:
-            print("Downloading paper2authors_shelve.")
-            gdd.download_file_from_google_drive(file_id=paper2authors_shelve_id,
-                                                dest_path='./'+self.paper2authors_shelve,
-                                                unzip=False)
+        self.paper2data_shelve = None
+        if paper2data_shelve_id is not None:
+            self.paper2data_shelve = 'paper2data_shelve'
+
+            if not os.path.exists(self.paper2data_shelve) or force_download:
+                print("Downloading paper2data_shelve.")
+                gdd.download_file_from_google_drive(file_id=paper2data_shelve_id,
+                                                    dest_path='./'+self.paper2data_shelve,
+                                                    unzip=False)
+        else:
+            warnings.warn("No paper2author provided. Will only return paper IDS (not authors)")
 
     def get_recommended_authors(self, title, top):
+        field = 100 #Search field
         embs = self.bert.get_embeddings_for_sentence(title)
-        paper_ids = self.index.search(embs, top)
+        paper_ids = self.index.search(embs, field)
+        if self.paper2data_shelve is None: return paper_ids
         author2score = Counter()
-        with shelve.open(self.paper2authors_shelve) as paper2authors:
+        with shelve.open(self.paper2data_shelve) as paper2data:
             # Count mentions.
             # TODO: Consider paper recency
             # TODO: Consider paper distance
             for paper_id in paper_ids:
-                for author in paper2authors[paper_id]:
+                for author in paper2data[paper_id]['authors']:
                     author2score[author] += 1
 
-        return author2score
+        return [occurrence[0] for occurrence in author2score.most_common(top)]
 
