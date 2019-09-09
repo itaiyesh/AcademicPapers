@@ -17,8 +17,12 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import clsx from 'clsx';
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+
 import {debounce} from '../../../../node_modules/lodash';
 import Box from '@material-ui/core/Box';
+import { ChipSelect } from '../../../../components/ChipSelect';
+// import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -90,6 +94,7 @@ const Topbar = props => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [authorSelection, setAuthorSelection] = React.useState([]);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -111,12 +116,17 @@ const Topbar = props => {
     setMobileMoreAnchorEl(event.currentTarget);
   }
 
+  function setAuthors(event) {
+    console.log(event);
+    //TODO
+  }
+
   function handleSearchEnter(event) { 
       // event.preventDefault();
 
       if(event.key==='Enter'){
-        console.log("Searching ", searchQuery); 
-        submitSearchQuery(searchQuery);   
+        console.log("Searching ", searchQuery, authorSelection); 
+        submitSearchQuery(searchQuery, authorSelection);   
     }
   }
 
@@ -124,12 +134,13 @@ const Topbar = props => {
     setSearchQuery(event.target.value);
   }
   
-  function submitSearchQuery(searchQuery){ 
+  function submitSearchQuery(searchQuery, authorSelection){ 
     fetch('/search_paper', {
      method: 'post',
      headers: {'Content-Type':'application/json'},
      body: JSON.stringify({
-      "query": searchQuery
+      "title": searchQuery,
+      "authors": authorSelection.map(x=> x['author']['id'])
      })
     })
     .then(response => 
@@ -208,25 +219,48 @@ const Topbar = props => {
               Expert lookup
             </Typography>
           </Box>
-          <Container maxWidth="md">
-          <div className={clsx(classes.search) }>
-            <div className={classes.searchIcon}>
+          <Grid container direction="row"
+
+            style={{marginLeft: 20}}
+            alignItems='center' spacing={4}
+            padding={0}
+            >
+            <Grid item className={classes.searchIcon}>
               <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              className={classes.grow}
-              classes={{
-                root: clsx(classes.inputRoot,classes.grow),
-                input: clsx(classes.inputInput,classes.grow),
-              }}
-              onChange = {handleSearchQueryChange}
-              inputProps={{ 'aria-label': 'search' }}
-              value={searchQuery}
-              onKeyPress={handleSearchEnter}
-            />
-          </div>
-          </Container>
+            </Grid>
+            <Grid item  sm="5">
+              <InputBase
+                placeholder="Search…"
+                className={classes.grow}
+                classes={{
+                  root: clsx(classes.inputRoot,classes.grow),
+                  input: clsx(classes.inputInput,classes.grow),
+                }}
+                onChange = {handleSearchQueryChange}
+                inputProps={{ 'aria-label': 'search' }}
+                value={searchQuery}
+                onKeyPress={handleSearchEnter}
+              />
+            </Grid>
+            <Grid item>
+                <Typography className={classes.title} variant="h6" noWrap color="inherit">
+                      By
+                </Typography>
+            </Grid>
+            <Grid item  sm="5">
+              < ChipSelect setRecommendedAuthors={setAuthors} selection={authorSelection} setSelection={setAuthorSelection} placeholder = "Authors..."></ChipSelect>
+            </Grid>
+          </Grid>
+          {/* <Container  maxWidth="md" direction="row" alignItems="center" spacing={20}>
+            <Grid item sm={1}>
+                <Typography className={classes.title} variant="h6" noWrap color="inherit">
+                  By
+                </Typography>
+              </Grid>
+              <Grid item sm={12}>
+              < ChipSelect setRecommendedAuthors={setAuthors} selection={authorSelection} setSelection={setAuthorSelection}></ChipSelect>
+              </Grid>
+          </Container> */}
           <div className={classes.sectionDesktop}>
             <IconButton
               edge="end"

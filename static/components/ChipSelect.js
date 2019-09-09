@@ -28,7 +28,8 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     // height: 250,
     minWidth: 290,
-    paddingBottom: theme.spacing(5)
+    // marginBottom: '16'
+    // paddingBottom: theme.spacing(5)
   },
   input: {
     display: 'flex',
@@ -281,7 +282,7 @@ Menu.propTypes = {
 
 
 function ChipSelect(props) {
-  const { recommendedAuthors, setRecommendedAuthors, selection, setSelection } = props;
+  const { recommendedAuthors, setRecommendedAuthors, selection, setSelection, placeholder } = props;
 
   const classes = useStyles();
   const theme = useTheme();
@@ -440,19 +441,19 @@ const components = {
   return (
     <div className={classes.root}>
       <NoSsr>
-        <div className={classes.divider} />
+        {/* <div className={classes.divider} /> */}
         <Select
           classes={classes}
           styles={selectStyles}
           inputId="react-select-multiple"
           TextFieldProps={{
-            label: 'Authors',
+            // label: 'Authors',
             InputLabelProps: {
               htmlFor: 'react-select-multiple',
               shrink: true,
             },
           }}
-          placeholder="Select specific experts"
+          placeholder={placeholder}
           options={suggestions}
           components={components}
           value={selection}

@@ -19,6 +19,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
+import StarRatings from '../../node_modules/react-star-ratings';
 
 import {AuthorsList} from '../Authors/Authors';
 
@@ -78,7 +79,43 @@ const useStyles = makeStyles(theme => ({
     const { author, ...rest } = props;
 
     return (
-      <p>{author.name}</p>
+      <Grid container direction="column"  spacing={4}>
+            <Grid item>
+                <Grid container direction="column" spacing={4}>
+                      <Grid item alignItems='center'>
+                        <Typography  component="h1" variant="h1">{author.name}</Typography>
+                      </Grid>
+                      <Grid item>
+                      < Typography  component="h3" variant="h3" >{author.affiliation}</Typography>
+                      </Grid>
+
+               </Grid>
+            </Grid>
+            <Grid item >
+              < img src={author.img} style={{maxHeight: '100%', maxWidth:'100%'}}></img>
+            </Grid>
+            <Grid item>
+                <div
+                  style ={{paddingTop: theme.spacing(1)}}>
+                  <StarRatings 
+                    rating={5*(author.score)/10}
+                    starRatedColor={theme.palette.text.secondary.dark}
+                    starEmptyColor = {theme.palette.text.secondary.light}
+                    starDimension="24px"
+                    starSpacing="2px"
+                    // changeRating={this.changeRating}
+                    numberOfStars={5}
+                    name='star_match_rank'
+                  />
+                </div>
+              </Grid>
+            <Grid item>
+              <Typography>
+                [recent publications, why is it a good match?, etc...]
+              </Typography>
+            </Grid>
+      </Grid>
+        
     );
 
   }
@@ -90,14 +127,16 @@ const useStyles = makeStyles(theme => ({
     const {onAuthorSelected, recommendedAuthors, author, ...rest } = props;
 
     return (
-      <Box display="flex" flexDirection="row" >
-      <AuthorDetails  author={author}>
-      </AuthorDetails>
-      <AuthorsList  recommendedAuthors={recommendedAuthors} small={true} onAuthorSelected={onAuthorSelected}>
-
-      </AuthorsList>
-      </Box>
-
+      <Grid container direction="row" style={{padding: '20'}}>
+        <Grid item sm="9">
+          <AuthorDetails  author={author}>
+          </AuthorDetails>
+        </Grid>
+        <Grid item sm="3">
+          <AuthorsList  recommendedAuthors={recommendedAuthors} small={true} onAuthorSelected={onAuthorSelected}>
+          </AuthorsList>
+      </Grid>
+    </Grid>
     );
 
   };

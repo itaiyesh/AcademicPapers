@@ -86,7 +86,7 @@ const Authors = props => {
 
     return (
       <Container  className={classes.container}  maxWidth="md"> 
-          <ChipSelect setRecommendedAuthors={setRecommendedAuthors} selection={selection} setSelection={setSelection}></ChipSelect>
+          <ChipSelect setRecommendedAuthors={setRecommendedAuthors} selection={selection} setSelection={setSelection} placeholder="Select specific experts"></ChipSelect>
           <AuthorsList recommendedAuthors={recommendedAuthors} small={false} onAuthorSelected={onAuthorSelected}></AuthorsList>
       </Container>
     )
@@ -147,11 +147,13 @@ const Authors = props => {
       return (
         <Card className={classes.card}>
           <Grid container>
-            <Grid item md={2} style={{alignItems: 'center', display:'flex', justifyContent:'center', padding: theme.spacing(2)}} >
-              <Avatar src={author.img} style={{height: 120, width: 120}}  ></Avatar>
+            <Grid item md={6} style={{alignItems: 'center', justifyContent:'center'}} >
+              {/* <Avatar src={author.img} style={{height: 100, width: 100}}  ></Avatar> */}
+              <img src={author.img} style={{maxHeight: '100%', maxWidth:'100%'}}></img>
+
             </Grid>
-            <Grid item md={3}  style={{padding: theme.spacing(2)}} >
-              <Typography component="h5" variant="h5">
+            <Grid item md={6}  style={{padding: theme.spacing(2)}} >
+              <Typography component="h6" variant="h6">
                     {author.name}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
