@@ -48,7 +48,7 @@
     "react-dom": "^16.8.6",
     "react-perfect-scrollbar": "^1.5.3",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "react-select": "^3.0.4",
     "react-star-ratings": "^2.3.0",
     "react-virtualized-select": "^3.1.3",
